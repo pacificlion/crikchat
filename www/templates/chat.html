@@ -1,0 +1,21 @@
+<ion-view view-title="Crik-Chat">
+  <ion-pane ng-controller="PageCtrl">
+      
+      <ion-header-bar frosted-bar class="bar-frosted">
+        <h1 class="title">Blurred!</h1>
+      </ion-header-bar>
+      
+      <ion-content class="padding has-footer" start-y="120">
+        <ol class="messages">
+          <li ng-repeat="message in messages" ng-bind-html="message.content"></li>
+        </ol>
+      </ion-content>
+      <ion-footer-bar class="bar bar-footer bar-frosted padding-top">
+        <!-- <button class="button button-clear button-positive" ng-click="add()">Add Message</button> -->
+        <!-- <input class="textarea" type="text" style="width: 100%" placeholder="Type here!"/><div class="emojis"> -->
+	    <input class="textarea" type="text" style="width: 100%" placeholder="Type here!!" ng-enter="add()"ng-model="newmsg">
+	    <div class="emojis"></div>
+	    <button class="button button-balanced icon ion-android-send pull-right" style="z-index: 9999" ng-click="add()"></button>
+      </ion-footer-bar>
+    </ion-pane>
+</ion-view>
