@@ -13,6 +13,99 @@ angular.module('starter.controllers', [])
         });
     };
 })
+.directive('quiz', function(quizFactory) {
+  return {
+    restrict: 'AE',
+    scope: {},
+    templateUrl: 'templates/quiztemplate.html',
+    link: function(scope, elem, attrs) {
+      scope.start = function() {
+        scope.id = 0;
+        scope.quizOver = false;
+        scope.inProgress = true;
+        scope.getQuestion();
+      };
+
+      scope.reset = function() {
+        scope.inProgress = false;
+        scope.score = 0;
+      }
+
+      scope.getQuestion = function() {
+        var q = quizFactory.getQuestion(scope.id);
+        if(q) {
+          scope.question = q.question;
+          scope.options = q.options;
+          scope.answer = q.answer;
+          scope.answerMode = true;
+        } else {
+          scope.quizOver = true;
+        }
+      };
+
+      scope.checkAnswer = function() {
+        if(!$('input[name=answer]:checked').length) return;
+
+        var ans = $('input[name=answer]:checked').val();
+
+        if(ans == scope.options[scope.answer]) {
+          scope.score++;
+          scope.correctAns = true;
+        } else {
+          scope.correctAns = false;
+        }
+
+        scope.answerMode = false;
+      };
+
+      scope.nextQuestion = function() {
+        scope.id++;
+        scope.getQuestion();
+      }
+
+      scope.reset();
+    }
+  }
+})
+.factory('quizFactory', function() {
+  var questions = [
+    {
+      question: "During bowling action, Bowlers' arm must not extend(bend) above which degree?",
+      options: ["15", "5", "4", "10"],
+      answer: 0
+    },
+    {
+      question: "Which Cricketer is known as 'THE WALL'?",
+      options: ["Sourav Ganguly", "Rahul Dravid", "Sachin Tendulkar", "Virat Kohli"],
+      answer: 1
+    },
+    {
+      question: "The second bouncer in the same over is considered?",
+      options: ["No Ball", "Wide Ball", "Wrong Ball", "Normal Ball"],
+      answer: 0
+    },
+    {
+      question: "Which country won the 2007 ICC T20 World Cup?",
+      options: ["Sri Lanka", "Australia", "India", "Kenya"],
+      answer: 2
+    },
+    { 
+      question: "First batsman to hit six on first ball of Test Match?",
+      options: ["Chris Gayle", "Sourav Ganguly", "M S Dhoni", "Virendra Sehwag"],
+      answer: 0
+    }
+  ];
+
+  return {
+    getQuestion: function(id) {
+      if(id < questions.length) {
+        return questions[id];
+      } else {
+        return false;
+      }
+    }
+  };
+})
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -97,12 +190,14 @@ angular.module('starter.controllers', [])
   $scope.messages = messageOptions.slice(0, messageOptions.length);
   $scope.newmsg="";
  function serverCall(msg){
-  var apiEndpoint ='https://api.projectoxford.ai/luis/v2.0/apps/b4209f2f-bffc-49d2-a0bf-d45c366a64d9?subscription-key=72fde056e3324f07a070a4b581dc8fb2&verbose=true';
+  var apiEndpoint ='http://821c6a1a.ngrok.io/luis/';
+  // var apiEndpoint ='https://api.projectoxford.ai/luis/v2.0/apps/b4209f2f-bffc-49d2-a0bf-d45c366a64d9?subscription-key=72fde056e3324f07a070a4b581dc8fb2&verbose=true';
    $http.get(apiEndpoint,{params:{'q':msg}}).then(function(response) {
         if (response.status === 200) {
           console.log(response);
           if(response.data !=null)
-          var nextmsg = response.data.topScoringIntent.intent;
+          // var nextmsg = response.data.topScoringIntent.intent;
+        var nextmsg = response.data;
           //console.log(nextmsg);
           var nextMessage = { content: '<p>'+nextmsg+'</p>' };
           $scope.messages.push(angular.extend({}, nextMessage));

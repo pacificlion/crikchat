@@ -77,4 +77,43 @@ input.textarea {
 .emojis:active {
     opacity: 0.9;
 }
+/*for quiz app*/
+/*.quiz-area {
+	margin: 0 auto;
+	font-family: 'Helvetica', 'Arial';
+}*/
+ .quiz-area h2 {
+	font-weight: normal;
+	font-size: 18px;
+}
 
+
+.quiz-area li {
+	list-style: none;
+}
+
+.quiz-area .button {
+	font-size: 18px;
+	cursor: pointer;
+}
+
+
+.quizApp .container {
+	width: 480px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#options {
+	margin: 10px 0;
+}
+
+.next-question {
+	margin-right: 10px;
+}
+
+#score {
+	margin-top: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}

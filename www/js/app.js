@@ -75,6 +75,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic.contrib.froste
     controller: 'ChatCtrl'
      }
       }
+  })
+  .state('app.quiz', {
+    url: '/quiz',
+    views: {
+        'menuContent': {
+    templateUrl: 'templates/quiz.html'
+     }
+      }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/chat');
